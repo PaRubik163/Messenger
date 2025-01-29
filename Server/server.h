@@ -18,9 +18,14 @@ private:
 
     QVector<std::unique_ptr<User>> users;
 
+    QMap<QString, std::function<void(const QJsonObject &, User*)>> commands;
+    void messageTo(const QJsonObject &, User*);
+    void messageToAll(const QJsonObject &, User*);
+
 public slots:
     void onDisconected();
     void onNewMessage();
+
 
 };
 
