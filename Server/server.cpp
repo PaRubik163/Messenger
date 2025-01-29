@@ -12,7 +12,8 @@ Server::Server()
         return;
     }
 
-    commands["message to"] = [this](const QJsonObject &json, User* user){
+    commands["message to"] = [this](const QJsonObject &json, User* user)
+    {
         messageTo(json, user);
     };
 
@@ -54,7 +55,7 @@ void Server::messageToAll(const QJsonObject &json, User *user)
 {
     for(auto &us : users)
     {
-        if(us->name != json["author"].toString())
+        if(!us->name.isEmpty() && us.get() != user)
         {
             QJsonDocument doc;
             doc.setObject(json);
