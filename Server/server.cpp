@@ -22,6 +22,10 @@ Server::Server()
         messageToAll(json, user);
     };
 
+    commands["check name"] = [this](const QJsonObject &json, User *user)
+    {
+        checkName(json, user);
+    };
 }
 
 void Server::incomingConnection(qintptr socketDescriptor)
@@ -62,6 +66,27 @@ void Server::messageToAll(const QJsonObject &json, User *user)
             us->write(doc.toBinaryData());
         }
     }
+}
+
+void Server::checkName(const QJsonObject &json, User *user)
+{
+    QString name = json["name"].toString();
+    if(name.isEmpty())
+    {
+        //Отправить отрицательный ответ
+        return;
+    }
+
+    for(auto &us : users)
+    {
+        if(us->name == name)
+        {
+            //Отправить отрицательный ответ
+            return;
+        }
+    }
+
+    //Отправить положительный ответ
 }
 
 

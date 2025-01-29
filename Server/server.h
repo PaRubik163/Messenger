@@ -21,6 +21,7 @@ private:
     QMap<QString, std::function<void(const QJsonObject &, User*)>> commands;
     void messageTo(const QJsonObject &, User*);
     void messageToAll(const QJsonObject &, User*);
+    void checkName(const QJsonObject &, User*);
 
 public slots:
     void onDisconected();
