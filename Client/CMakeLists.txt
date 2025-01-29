@@ -14,6 +14,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Поиск пакета Qt
 find_package(Qt5 REQUIRED COMPONENTS Widgets Network)
 
-add_executable(Client main.cpp)
+add_executable(Client main.cpp
+                user.cpp user.h
+                widget.cpp widget.h widget.ui
+                login.cpp login.h)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets Qt5::Network)
