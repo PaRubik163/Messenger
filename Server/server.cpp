@@ -3,6 +3,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QMessageBox>
+#include "checknameresponse.h"
 
 Server::Server()
 {
@@ -22,6 +23,10 @@ Server::Server()
         messageToAll(json, user);
     };
 
+    commands["check name"] = [this](const QJsonObject &json, User *user)
+    {
+        checkName(json, user);
+    };
 }
 
 void Server::incomingConnection(qintptr socketDescriptor)
@@ -64,6 +69,32 @@ void Server::messageToAll(const QJsonObject &json, User *user)
     }
 }
 
+void Server::checkName(const QJsonObject &json, User *user)
+{
+    QString name = json["name"].toString();
+    if(name.isEmpty())
+    {
+        QJsonDocument doc(CheckNameResponse().success(false).description("name is empty").build());
+        QByteArray bytes = doc.toJson();
+        user->write(bytes);
+        return;
+    }
+
+    for(auto &us : users)
+    {
+        if(us->name == name)
+        {
+            QJsonDocument doc(CheckNameResponse().success(false).description("name already used").build());
+            QByteArray bytes = doc.toJson();
+            user->write(bytes);
+            return;
+        }
+    }
+
+    QJsonDocument doc(CheckNameResponse().success(true).build());
+    QByteArray bytes = doc.toJson();
+    user->write(bytes);
+}
 
 void Server::onDisconected()
 {

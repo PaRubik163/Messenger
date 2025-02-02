@@ -17,6 +17,7 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets Network)
 
 add_executable(Server main.cpp
                 server.cpp server.h
-                 user.cpp user.h)
+                 user.cpp user.h
+                 checknameresponse.h)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets Qt5::Network)
