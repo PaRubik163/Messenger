@@ -3,7 +3,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QMessageBox>
-
 #include "checknameresponse.h"
 
 Server::Server()
@@ -96,7 +95,6 @@ void Server::checkName(const QJsonObject &json, User *user)
     QByteArray bytes = doc.toJson();
     user->write(bytes);
 }
-
 
 void Server::onDisconected()
 {
