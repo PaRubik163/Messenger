@@ -4,6 +4,8 @@
 #include <QJsonObject>
 #include <QMessageBox>
 
+#include "checknameresponse.h"
+
 Server::Server()
 {
     if (!listen(QHostAddress::Any, 6000))
@@ -73,7 +75,9 @@ void Server::checkName(const QJsonObject &json, User *user)
     QString name = json["name"].toString();
     if(name.isEmpty())
     {
-        //Отправить отрицательный ответ
+        QJsonDocument doc(CheckNameResponse().success(false).description("name is empty").build());
+        QByteArray bytes = doc.toJson();
+        user->write(bytes);
         return;
     }
 
@@ -81,12 +85,16 @@ void Server::checkName(const QJsonObject &json, User *user)
     {
         if(us->name == name)
         {
-            //Отправить отрицательный ответ
+            QJsonDocument doc(CheckNameResponse().success(false).description("name already used").build());
+            QByteArray bytes = doc.toJson();
+            user->write(bytes);
             return;
         }
     }
 
-    //Отправить положительный ответ
+    QJsonDocument doc(CheckNameResponse().success(true).build());
+    QByteArray bytes = doc.toJson();
+    user->write(bytes);
 }
 
 
