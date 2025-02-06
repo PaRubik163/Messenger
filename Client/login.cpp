@@ -3,55 +3,55 @@
 Login::Login(QWidget *parent) : QDialog(parent)
 {
 
-    login = new QLabel("Логин:", this);
-    ip = new QLabel("IP-адрес:", this);
-    password = new QLabel("Пароль:", this);
+    login_ = new QLabel("Логин:", this);
+    ip_ = new QLabel("IP-адрес:", this);
+    password_ = new QLabel("Пароль:", this);
 
-    loginEdit = new QLineEdit(this);
-    ipEdit = new QLineEdit(this);
-    passwordEdit = new QLineEdit(this);
-    passwordEdit->setEchoMode(QLineEdit::Password);
+    loginEdit_ = new QLineEdit(this);
+    ipEdit_ = new QLineEdit(this);
+    passwordEdit_ = new QLineEdit(this);
+    passwordEdit_->setEchoMode(QLineEdit::Password);
 
-    enter = new QPushButton("Войти", this);
+    enter_ = new QPushButton("Войти", this);
 
-    loginlayout = new QHBoxLayout();
-    loginlayout->addWidget(login);
-    loginlayout->addWidget(loginEdit);
+    loginlayout_ = new QHBoxLayout();
+    loginlayout_->addWidget(login_);
+    loginlayout_->addWidget(loginEdit_);
 
-    iplayout = new QHBoxLayout();
-    iplayout->addWidget(ip);
-    iplayout->addWidget(ipEdit);
+    iplayout_ = new QHBoxLayout();
+    iplayout_->addWidget(ip_);
+    iplayout_->addWidget(ipEdit_);
 
-    passwordlayout = new QHBoxLayout();
-    passwordlayout->addWidget(password);
-    passwordlayout->addWidget(passwordEdit);
+    passwordlayout_ = new QHBoxLayout();
+    passwordlayout_->addWidget(password_);
+    passwordlayout_->addWidget(passwordEdit_);
 
-    layout = new QVBoxLayout(this);
+    layout_ = new QVBoxLayout(this);
 
-    layout->addLayout(loginlayout);
-    layout->addLayout(iplayout);
-    layout->addLayout(passwordlayout);
-    layout->addWidget(enter);
+    layout_->addLayout(loginlayout_);
+    layout_->addLayout(iplayout_);
+    layout_->addLayout(passwordlayout_);
+    layout_->addWidget(enter_);
 
-    setLayout(layout);
+    setLayout(layout_);
 
-    connect(enter, &QPushButton::clicked, this, &Login::onEnterClicked);
+    connect(enter_, &QPushButton::clicked, this, &Login::onEnterClicked);
 
 }
 
 void Login::onEnterClicked()
 {
-    QString login_ = loginEdit->text();
-    QString ip_ = ipEdit->text();
-    QString password_ = passwordEdit->text();
+    QString name = loginEdit_->text();
+    QString ip = ipEdit_->text();
+    QString password = passwordEdit_->text();
 
-    if (login_.isEmpty() || ip_.isEmpty() || password_.isEmpty())
+    if (name.isEmpty() || ip.isEmpty() || password.isEmpty())
     {
         QMessageBox::warning(this, "ОШИБКА", "Все поля должны быть заполнены!");
     }
     else
     {
-        emit loggined(login_, ip_);
+        emit loggined(name, ip);
         close();
     }
 }

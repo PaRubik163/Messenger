@@ -16,11 +16,11 @@ public:
     explicit Login(QWidget *parent = nullptr);
 
 private:
-    QLabel *login, *ip, *password;
-    QLineEdit *loginEdit, *passwordEdit, *ipEdit;
-    QPushButton *enter;
-    QVBoxLayout *layout;
-    QHBoxLayout *loginlayout, *iplayout, *passwordlayout;
+    QLabel *login_, *ip_, *password_;
+    QLineEdit *loginEdit_, *passwordEdit_, *ipEdit_;
+    QPushButton *enter_;
+    QVBoxLayout *layout_;
+    QHBoxLayout *loginlayout_, *iplayout_, *passwordlayout_;
 
 signals:
     void loggined(QString name, QString ip);
