@@ -111,7 +111,5 @@ void Server::onNewMessage()
 
     QString type = json["type"].toString();
     commands[type](json, user);
-
-
 }
 

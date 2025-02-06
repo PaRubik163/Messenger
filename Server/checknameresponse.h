@@ -26,6 +26,7 @@ public:
     QJsonObject build() const
     {
         QJsonObject obj;
+        obj["type"] = "check name response";
         obj["success"] = success_;
         if (!success_)
         {

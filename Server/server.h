@@ -16,7 +16,7 @@ public:
     void incomingConnection(qintptr socketDescriptor) override;
 private:
 
-    QVector<std::unique_ptr<User>> users;
+    QVector<std::shared_ptr<User>> users;
 
     QMap<QString, std::function<void(const QJsonObject &, User*)>> commands;
     void messageTo(const QJsonObject &, User*);

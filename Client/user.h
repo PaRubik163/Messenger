@@ -9,7 +9,7 @@ public slots:
 
     void connect(const QString &ip, quint16 port);
 public:
-
+    User();
     void setName(const QString &name);
 private:
     QString name;
