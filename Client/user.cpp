@@ -3,6 +3,7 @@
 
 void User::connect(const QString &ip, quint16 port)
 {
+    qDebug("Начало подключения");
     connectToHost(ip, port);
 }
 

@@ -40,7 +40,7 @@
      <item>
       <widget class="QPushButton" name="sendButton">
        <property name="text">
-        <string>Отправить</string>
+        <string>Send</string>
        </property>
       </widget>
      </item>
