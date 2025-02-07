@@ -10,6 +10,7 @@ Server::Server()
     if (!listen(QHostAddress::Any, 6000))
     {
         QMessageBox::critical(nullptr, "Ошибка подключения", "Не удалось начать прослушивание на текущем порту");
+        qDebug("Не удалось подключиться!");
         return;
     }
 
@@ -34,8 +35,10 @@ void Server::incomingConnection(qintptr socketDescriptor)
     auto user = std::make_unique<User>();
     user->setSocketDescriptor(socketDescriptor);
 
+
     connect(user.get(), &QTcpSocket::disconnected,
             this, &Server::onDisconected);
+    qDebug("Отключение пользователя");
 
     connect(user.get(), &QTcpSocket::readyRead,
             this, &Server::onNewMessage);
@@ -75,6 +78,7 @@ void Server::checkName(const QJsonObject &json, User *user)
     if(name.isEmpty())
     {
         QJsonDocument doc(CheckNameResponse().success(false).description("name is empty").build());
+        qDebug("Пустое имя пользователя");
         QByteArray bytes = doc.toJson();
         user->write(bytes);
         return;
@@ -85,6 +89,7 @@ void Server::checkName(const QJsonObject &json, User *user)
         if(us->name == name)
         {
             QJsonDocument doc(CheckNameResponse().success(false).description("name already used").build());
+            qDebug("Имя уже используется");
             QByteArray bytes = doc.toJson();
             user->write(bytes);
             return;
@@ -93,6 +98,7 @@ void Server::checkName(const QJsonObject &json, User *user)
 
     QJsonDocument doc(CheckNameResponse().success(true).build());
     QByteArray bytes = doc.toJson();
+    qDebug("Подходящее имя");
     user->write(bytes);
 }
 

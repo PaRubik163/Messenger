@@ -47,11 +47,12 @@ void Login::onEnterClicked()
 
     if (name.isEmpty() || ip.isEmpty() || password.isEmpty())
     {
-        QMessageBox::warning(this, "ОШИБКА", "Все поля должны быть заполнены!");
+        qWarning("Не все поля заполнены!");
     }
     else
     {
         emit loggined(name, ip);
+        qDebug("Успешная авторизация");
         close();
     }
 }
