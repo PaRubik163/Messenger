@@ -13,6 +13,7 @@ Server::Server()
         qDebug("Не удалось подключиться!");
         return;
     }
+    qDebug("Начало работы сервера");
 
     commands["message to"] = [this](const QJsonObject &json, User* user)
     {
@@ -38,7 +39,6 @@ void Server::incomingConnection(qintptr socketDescriptor)
 
     connect(user.get(), &QTcpSocket::disconnected,
             this, &Server::onDisconected);
-    qDebug("Отключение пользователя");
 
     connect(user.get(), &QTcpSocket::readyRead,
             this, &Server::onNewMessage);
@@ -55,6 +55,7 @@ void Server::messageTo(const QJsonObject &json, User *user)
             QJsonDocument doc;
             doc.setObject(json);
             us->write(doc.toBinaryData());
+            qDebug() << "Сообщение отправлено к " << us->name;
         }
     }
 }
@@ -68,6 +69,7 @@ void Server::messageToAll(const QJsonObject &json, User *user)
             QJsonDocument doc;
             doc.setObject(json);
             us->write(doc.toBinaryData());
+            qDebug() << "Сообщение отправлено всем от " << user->name;
         }
     }
 }
@@ -78,7 +80,7 @@ void Server::checkName(const QJsonObject &json, User *user)
     if(name.isEmpty())
     {
         QJsonDocument doc(CheckNameResponse().success(false).description("name is empty").build());
-        qDebug("Пустое имя пользователя");
+        qDebug() << "Пустое имя пользователя";
         QByteArray bytes = doc.toJson();
         user->write(bytes);
         return;
@@ -89,7 +91,7 @@ void Server::checkName(const QJsonObject &json, User *user)
         if(us->name == name)
         {
             QJsonDocument doc(CheckNameResponse().success(false).description("name already used").build());
-            qDebug("Имя уже используется");
+            qDebug() << "Имя " << name << " уже использутеся";
             QByteArray bytes = doc.toJson();
             user->write(bytes);
             return;
@@ -98,7 +100,13 @@ void Server::checkName(const QJsonObject &json, User *user)
 
     QJsonDocument doc(CheckNameResponse().success(true).build());
     QByteArray bytes = doc.toJson();
-    qDebug("Подходящее имя");
+
+    qDebug() << "Занятые имена";
+    for (auto &us : users)
+    {
+        qDebug() << us->name;
+    }
+
     user->write(bytes);
 }
 

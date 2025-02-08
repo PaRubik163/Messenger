@@ -52,7 +52,7 @@ void Login::onEnterClicked()
     else
     {
         emit loggined(name, ip);
-        qDebug("Успешная авторизация");
+        qDebug("Успешное подключение");
         close();
     }
 }

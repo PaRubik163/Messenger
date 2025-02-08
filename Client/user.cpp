@@ -25,5 +25,5 @@ void User::connect(const QString &ip, quint16 port)
 void User::setName(const QString &name)
 {
     this->name = name;
-    qDebug("Пользователь изменил имя");
+    qDebug("имя изменилось");
 }
