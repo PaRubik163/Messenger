@@ -18,12 +18,12 @@ User::User()
 
 void User::connect(const QString &ip, quint16 port)
 {
-    qDebug("Подключение к серверу");
+    qDebug() << "Подключение к серверу";
     connectToHost(ip, port);
 }
 
 void User::setName(const QString &name)
 {
     this->name = name;
-    qDebug("имя изменилось");
+    qDebug() << "имя изменилось";
 }

@@ -47,12 +47,12 @@ void Login::onEnterClicked()
 
     if (name.isEmpty() || ip.isEmpty() || password.isEmpty())
     {
-        qWarning("Не все поля заполнены!");
+        qWarning() << "Не все поля заполнены!";
     }
     else
     {
         emit loggined(name, ip);
-        qDebug("Успешное подключение");
+        qDebug() << "Успешное подключение";
         close();
     }
 }

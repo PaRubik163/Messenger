@@ -10,10 +10,10 @@ Server::Server()
     if (!listen(QHostAddress::Any, 6000))
     {
         QMessageBox::critical(nullptr, "Ошибка подключения", "Не удалось начать прослушивание на текущем порту");
-        qDebug("Не удалось подключиться!");
+        qDebug() << "Не удалось подключиться!";
         return;
     }
-    qDebug("Начало работы сервера");
+    qDebug() << "Начало работы сервера";
 
     commands["message to"] = [this](const QJsonObject &json, User* user)
     {
