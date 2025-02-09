@@ -10,5 +10,6 @@ int main(int argc, char *argv[]) {
     widget.resize(300,150);
     widget.show();
 
+    qDebug() << "Открылось окно приложения";
     return app.exec();
 }
