@@ -27,7 +27,6 @@ Login::Login(QWidget *parent) : QDialog(parent)
     passwordlayout_->addWidget(passwordEdit_);
 
     layout_ = new QVBoxLayout(this);
-
     layout_->addLayout(loginlayout_);
     layout_->addLayout(iplayout_);
     layout_->addLayout(passwordlayout_);
@@ -36,7 +35,6 @@ Login::Login(QWidget *parent) : QDialog(parent)
     setLayout(layout_);
 
     connect(enter_, &QPushButton::clicked, this, &Login::onEnterClicked);
-
 }
 
 void Login::onEnterClicked()

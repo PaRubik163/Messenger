@@ -36,7 +36,6 @@ void Server::incomingConnection(qintptr socketDescriptor)
     auto user = std::make_unique<User>();
     user->setSocketDescriptor(socketDescriptor);
 
-
     connect(user.get(), &QTcpSocket::disconnected,
             this, &Server::onDisconected);
 

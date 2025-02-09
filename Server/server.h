@@ -26,8 +26,6 @@ private:
 public slots:
     void onDisconected();
     void onNewMessage();
-
-
 };
 
 
