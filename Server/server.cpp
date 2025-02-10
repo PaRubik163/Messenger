@@ -33,7 +33,7 @@ Server::Server()
 
 void Server::incomingConnection(qintptr socketDescriptor)
 {
-    auto user = std::make_unique<User>();
+    auto user = std::make_shared<User>();
     user->setSocketDescriptor(socketDescriptor);
 
     connect(user.get(), &QTcpSocket::disconnected,
@@ -43,6 +43,7 @@ void Server::incomingConnection(qintptr socketDescriptor)
             this, &Server::onNewMessage);
 
     users.push_back(std::move(user));
+    qDebug() << "Новое подключение";
 }
 
 void Server::messageTo(const QJsonObject &json, User *user)
@@ -89,29 +90,33 @@ void Server::checkName(const QJsonObject &json, User *user)
     {
         if(us->name == name)
         {
-            QJsonDocument doc(CheckNameResponse().success(false).description("name already used").build());
             qDebug() << "Имя " << name << " уже использутеся";
+            QJsonDocument doc(CheckNameResponse().success(false).description("name already used").build());          
             QByteArray bytes = doc.toJson();
             user->write(bytes);
             return;
-        }
+        }       
     }
 
+    user->name = name;
+    qDebug() << "Имя " << user->name << " подходящее";
     QJsonDocument doc(CheckNameResponse().success(true).build());
     QByteArray bytes = doc.toJson();
-
-    qDebug() << "Занятые имена";
-    for (auto &us : users)
-    {
-        qDebug() << us->name;
-    }
-
     user->write(bytes);
 }
 
 void Server::onDisconected()
 {
-
+    auto user = dynamic_cast<User*>(sender());
+    for (auto &us : users)
+    {
+        if (us.get() == user)
+        {
+            users.removeOne(us);
+            break;
+        }
+    }
+    qDebug() << "Пользователь " << user->name << " отключился";
 }
 
 void Server::onNewMessage()
@@ -121,6 +126,7 @@ void Server::onNewMessage()
 
     QJsonDocument doc = QJsonDocument::fromJson(bytes);
     QJsonObject json = doc.object();
+    qDebug() << json;
 
     QString type = json["type"].toString();
     commands[type](json, user);

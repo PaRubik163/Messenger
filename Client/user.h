@@ -11,8 +11,12 @@ public slots:
 public:
     User();
     void setName(const QString &name);
+private slots:
+    void onNewMessage();
 private:
     QString name;
+    QMap<QString, std::function<void(const QJsonObject &)>> commands;
+    void checkNameResponse(const QJsonObject &);
 };
 
 #endif // USER_H

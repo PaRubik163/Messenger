@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 # Название проекта
-project(Client)
+project(Client LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)       # Включает автоматическую генерацию .moc-файлов
 set(CMAKE_AUTORCC ON)       # Включает автоматическую обработку .qrc-файлов
